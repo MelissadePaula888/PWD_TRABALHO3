@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}{{ lesson.title }}{% endblock %}
+{% block content %}
+<div class="lesson-page">
+ <a class="back" href="{{ url_for('subject_detail', subject_id=lesson.module.subject.id) }}">
+  ← Voltar para {{ lesson.module.subject.name }}
+ </a>
+ <div class="lesson-hero">
+  <span class="pill">
+   {{ lesson.module.name }}
+  </span>
+  <h1>
+   {{ lesson.title }}
+  </h1>
+  <p>
+   {{ lesson.duration }} minutos · +{{ lesson.xp_reward }} XP
+  </p>
+ </div>
+ {% if lesson.video_embed_url %}
+ <div class="lesson-video">
+  <div class="lesson-video-head">
+   <span>
+    Videoaula
+   </span>
+   <span>
+    Assista diretamente pelo StudyFlow
+   </span>
+  </div>
+  <div class="video-frame">
+   <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" src="{{ lesson.video_embed_url }}" title="{{ lesson.title }}">
+   </iframe>
+  </div>
+ </div>
+ {% endif %}
+ <article class="article">
+  {{ lesson.content|safe }}
+ </article>
+ {% if flashcards %}
+ <section class="flashcards-box">
+  <div class="flashcards-head">
+   <div>
+    <span class="pill">
+     Revisão
+    </span>
+    <h2>
+     Flashcards
+    </h2>
+    <p>
+     Leia a pergunta, pense na resposta e clique no cartão para virar.
+    </p>
+   </div>
+   <span class="flashcard-count" id="flashcard-count">
+    1 / {{ flashcards|length }}
+   </span>
+  </div>
+  <div class="flashcard" id="flashcard" onclick="virarFlashcard()">
+   <div class="flashcard-inner">
+    <div class="flashcard-face flashcard-front">
+     <small>
+      Pergunta
+     </small>
+     <strong id="flashcard-question">
+      {{ flashcards[0].question }}
+     </strong>
+     <span>
+      Clique para ver a resposta
+     </span>
+    </div>
+    <div class="flashcard-face flashcard-back">
+     <small>
+      Resposta
+     </small>
+     <strong id="flashcard-answer">
+      {{ flashcards[0].answer }}
+     </strong>
+     <span>
+      Clique para voltar
+     </span>
+    </div>
+   </div>
+  </div>
+  <div class="flashcard-actions">
+   <button class="btn" onclick="event.stopPropagation(); anteriorFlashcard()" type="button">
+    ← Anterior
+   </button>
+   <button class="btn primary" onclick="event.stopPropagation(); proximoFlashcard()" type="button">
+    Próximo →
+   </button>
+  </div>
+ </section>
+ {% endif %}
+ <form action="{{ url_for('complete', lesson_id=lesson.id) }}" method="POST">
+  {% if completed %}
+  <button class="btn success full" disabled="">
+   ✓ Aula concluída
+  </button>
+  {% else %}
+  <button class="btn primary full">
+   Concluir aula · +{{ lesson.xp_reward }} XP
+  </button>
+  {% endif %}
+ </form>
+</div>
+{% if flashcards %}
+<script id="flashcards-data">
+ const flashcards = {{ flashcards | map(attribute='question') | list | tojson }};
+const respostas = {{ flashcards | map(attribute='answer') | list | tojson }};
+</script>
+{% endif %}
+{% endblock %}

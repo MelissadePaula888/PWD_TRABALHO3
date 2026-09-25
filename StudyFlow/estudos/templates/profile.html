@@ -1,0 +1,55 @@
+{% extends 'base.html' %}{% block title %}Perfil{% endblock %}{% block content %}
+<div class="profile-head panel">
+ <div class="profile-avatar">
+  {% if current_user.avatar %}
+  <img src="{{url_for('static',filename='uploads/'+current_user.avatar)}}"/>
+  {% else %}{{current_user.username[0]|upper}}{% endif %}
+ </div>
+ <div>
+  <p class="eyebrow">
+   Seu perfil
+  </p>
+  <h1>
+   {{current_user.username}}
+  </h1>
+  <p>
+   Nível {{current_user.level}} · {{current_user.xp}} XP ·
+   <i class="fa-solid fa-fire">
+   </i>
+   {{current_user.streak}} dias
+  </p>
+ </div>
+ <form action="{{url_for('profile_upload')}}" class="avatar-form" enctype="multipart/form-data" method="POST">
+  <label class="btn outline">
+   Escolher foto
+   <input accept="image/*" hidden name="avatar" onchange="this.form.submit()" type="file"/>
+  </label>
+ </form>
+</div>
+<div class="stat-grid">
+ <div class="stat-card purple">
+  <span>
+   AULAS
+  </span>
+  <strong>
+   {{done_count}}
+  </strong>
+ </div>
+ <div class="stat-card blue">
+  <span>
+   HORAS
+  </span>
+  <strong>
+   {{hours}}
+  </strong>
+ </div>
+ <div class="stat-card pink">
+  <span>
+   CONQUISTAS
+  </span>
+  <strong>
+   {{achievements|length}}
+  </strong>
+ </div>
+</div>
+{% endblock %}

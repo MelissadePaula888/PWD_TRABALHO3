@@ -1,0 +1,43 @@
+{% extends 'base.html' %}{% block title %}Matérias{% endblock %}{% block content %}
+<div class="page-head">
+ <div>
+  <p class="eyebrow">
+   Biblioteca
+  </p>
+  <h1>
+   Matérias
+  </h1>
+  <p>
+   Escolha uma matéria e continue aprendendo.
+  </p>
+ </div>
+</div>
+<div class="subject-grid large">
+ {% for s in subjects %}
+ <a class="subject" href="{{url_for('subject_detail',subject_id=s.id)}}">
+  <div class="subject-top">
+   <span class="subject-icon" style="background:{{s.color}}22;color:{{s.color}}">
+    <i class="fa-solid fa-{{s.icon}}">
+    </i>
+   </span>
+   <span>
+    {{s.modules|length}} módulos
+   </span>
+  </div>
+  <h3>
+   {{s.name}}
+  </h3>
+  <p>
+   {{s.description}}
+  </p>
+  <div class="progress">
+   <i style="width:25%;background:{{s.color}}">
+   </i>
+  </div>
+  <small>
+   Começar jornada →
+  </small>
+ </a>
+ {% endfor %}
+</div>
+{% endblock %}

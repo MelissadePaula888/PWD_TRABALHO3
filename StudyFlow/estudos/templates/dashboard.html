@@ -1,0 +1,189 @@
+{% extends 'base.html' %}{% block title %}Dashboard{% endblock %}{% block breadcrumb %}
+<b>
+ Dashboard
+</b>
+{% endblock %}{% block content %}
+<div class="welcome-row">
+ <div>
+  <p class="eyebrow">
+   Olá, {{current_user.username}}
+  </p>
+  <h1>
+   Pronto para evoluir hoje?
+  </h1>
+ </div>
+ <a class="btn primary" href="{{url_for('timer')}}">
+  <i class="fa-solid fa-play">
+  </i>
+  Começar estudo
+ </a>
+</div>
+<div class="stat-grid">
+ <div class="stat-card purple">
+  <span>
+   <i class="fa-solid fa-star">
+   </i>
+   XP TOTAL
+  </span>
+  <strong>
+   {{current_user.xp}}
+  </strong>
+  <small>
+   Nível {{current_user.level}}
+  </small>
+ </div>
+ <div class="stat-card pink">
+  <span>
+   <i class="fa-solid fa-fire">
+   </i>
+   STREAK
+  </span>
+  <strong>
+   {{current_user.streak}}
+  </strong>
+  <small>
+   Melhor: {{current_user.best_streak}} dias
+  </small>
+ </div>
+ <div class="stat-card blue">
+  <span>
+   <i class="fa-solid fa-book-open">
+   </i>
+   AULAS
+  </span>
+  <strong>
+   {{total_lessons_done}}
+  </strong>
+  <small>
+   concluídas
+  </small>
+ </div>
+ <div class="stat-card green">
+  <span>
+   <i class="fa-solid fa-clock">
+   </i>
+   ESTA SEMANA
+  </span>
+  <strong>
+   {{weekly_minutes}} min
+  </strong>
+  <small>
+   de estudo
+  </small>
+ </div>
+</div>
+<div class="grid-2">
+ <section class="panel">
+  <div class="panel-head">
+   <div>
+    <h2>
+     Continue de onde parou
+    </h2>
+    <p>
+     Seu próximo passo está aqui.
+    </p>
+   </div>
+   <span class="round">
+    →
+   </span>
+  </div>
+  {% if last_lesson %}
+  <div class="continue">
+   <div class="lesson-icon">
+    <i class="fa-solid fa-book-open">
+    </i>
+   </div>
+   <div>
+    <b>
+     {{last_lesson.title}}
+    </b>
+    <span>
+     {{last_lesson.module.subject.name}} · {{last_lesson.duration}} min
+    </span>
+    <div class="progress">
+     <i style="width:35%">
+     </i>
+    </div>
+   </div>
+   <a class="btn primary" href="{{url_for('lesson',lesson_id=last_lesson.id)}}">
+    Continuar
+   </a>
+  </div>
+  {% else %}
+  <p>
+   Ainda não há dados.
+  </p>
+  {% endif %}
+ </section>
+ <section class="panel">
+  <div class="panel-head">
+   <div>
+    <h2>
+     Seu nível
+    </h2>
+    <p>
+     Mais {{100-current_user.level_progress}}% para o próximo nível
+    </p>
+   </div>
+   <strong class="level-badge">
+    {{current_user.level}}
+   </strong>
+  </div>
+  <div class="big-progress">
+   <i style="width:{{current_user.level_progress}}%">
+   </i>
+  </div>
+  <div class="level-line">
+   <span>
+    {{current_user.xp}} XP
+   </span>
+   <span>
+    {{current_user.next_level_xp}} XP
+   </span>
+  </div>
+ </section>
+</div>
+<section class="panel">
+ <div class="panel-head">
+  <div>
+   <h2>
+    Suas matérias
+   </h2>
+   <p>
+    Acompanhe seu progresso em cada área.
+   </p>
+  </div>
+  <a class="link" href="{{url_for('subjects')}}">
+   Ver todas →
+  </a>
+ </div>
+ <div class="subject-grid">
+  {% for s in subjects %}
+  <a class="subject" href="{{url_for('subject_detail',subject_id=s.id)}}">
+   <div class="subject-top">
+    <span class="subject-icon" style="background:{{s.color}}22;color:{{s.color}}">
+     <i class="fa-solid fa-{{s.icon}}">
+     </i>
+    </span>
+    <span>
+     {{s.progress_percent}}%
+    </span>
+   </div>
+   <h3>
+    {{s.name}}
+   </h3>
+   <p>
+    {{s.description}}
+   </p>
+   <div class="progress">
+    <i style="width:{{s.progress_percent}}%;background:{{s.color}}">
+    </i>
+   </div>
+   <small>
+    {{s.lesson_count}} aulas · {{s.total_duration}} min
+   </small>
+  </a>
+  {% endfor %}
+ </div>
+</section>
+{% endblock %}

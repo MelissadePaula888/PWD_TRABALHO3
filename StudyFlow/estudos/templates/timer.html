@@ -1,0 +1,53 @@
+{% extends 'base.html' %}{% block title %}Pomodoro{% endblock %}{% block content %}
+<div class="timer-wrap">
+ <section class="panel timer-card">
+  <p class="eyebrow">
+   Modo foco
+  </p>
+  <h1 id="timer">
+   25:00
+  </h1>
+  <div class="timer-buttons">
+   <button class="btn primary" onclick="startTimer()">
+    <i class="fa-solid fa-play">
+    </i>
+    Iniciar
+   </button>
+   <button class="btn outline" onclick="resetTimer()">
+    <i class="fa-solid fa-rotate-right">
+    </i>
+    Resetar
+   </button>
+  </div>
+  <div class="timer-presets">
+   <button onclick="setMinutes(25)">
+    25 min
+   </button>
+   <button onclick="setMinutes(50)">
+    50 min
+   </button>
+   <button onclick="setMinutes(90)">
+    90 min
+   </button>
+  </div>
+  <form id="timerForm" method="POST">
+   <input id="minutesInput" name="minutes" type="hidden" value="25"/>
+   <select class="input" name="subject_id">
+    <option value="">
+     Escolha uma matéria
+    </option>
+    {% for s in subjects %}
+    <option value="{{s.id}}">
+     {{s.name}}
+    </option>
+    {% endfor %}
+   </select>
+   <button class="btn success full">
+    Registrar sessão concluída · +10 XP
+   </button>
+  </form>
+ </section>
+</div>
+{% endblock %}{% block scripts %}
+
+{% endblock %}

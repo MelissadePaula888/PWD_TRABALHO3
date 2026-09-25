@@ -1,0 +1,39 @@
+{% extends 'base.html' %}{% block title %}Conquistas{% endblock %}{% block content %}
+<div class="page-head">
+ <div>
+  <p class="eyebrow">
+   Recompensas
+  </p>
+  <h1>
+   Conquistas
+  </h1>
+  <p>
+   Complete desafios e desbloqueie recompensas.
+  </p>
+ </div>
+</div>
+<div class="achievement-grid">
+ {% for a in achievements %}
+ <div class="achievement {{'unlocked' if a.id in unlocked else 'locked'}}">
+  <div class="achievement-icon">
+   {% if a.id in unlocked %}
+   <i class="fa-solid fa-trophy">
+   </i>
+   {% else %}
+   <i class="fa-solid fa-lock">
+   </i>
+   {% endif %}
+  </div>
+  <h3>
+   {{a.name}}
+  </h3>
+  <p>
+   {{a.description}}
+  </p>
+  <span>
+   +{{a.reward_xp}} XP
+  </span>
+ </div>
+ {% endfor %}
+</div>
+{% endblock %}

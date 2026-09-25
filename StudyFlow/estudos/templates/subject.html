@@ -1,0 +1,54 @@
+{% extends 'base.html' %}{% block title %}{{subject.name}}{% endblock %}{% block content %}
+<div class="page-head">
+ <div>
+  <p class="eyebrow">
+   Matéria
+  </p>
+  <h1>
+   {{subject.name}}
+  </h1>
+  <p>
+   {{subject.description}}
+  </p>
+ </div>
+</div>
+<div class="module-list">
+ {% for m in subject.modules %}
+ <section class="module-card">
+  <div class="module-title">
+   <span class="module-num">
+    {{loop.index}}
+   </span>
+   <div>
+    <h2>
+     {{m.name}}
+    </h2>
+    <p>
+     {{m.description}}
+    </p>
+   </div>
+   <span class="xp">
+    +{{m.xp_reward}} XP
+   </span>
+  </div>
+  {% for l in m.lessons %}
+  <a class="lesson-row" href="{{url_for('lesson',lesson_id=l.id)}}">
+   <span class="check {{'done' if l.id in done else ''}}">
+    {{'✓' if l.id in done else '→'}}
+   </span>
+   <span>
+    <b>
+     {{l.title}}
+    </b>
+    <small>
+     {{l.duration}} min · +{{l.xp_reward}} XP
+    </small>
+   </span>
+   <i class="fa-solid fa-chevron-right">
+   </i>
+  </a>
+  {% endfor %}
+ </section>
+ {% endfor %}
+</div>
+{% endblock %}

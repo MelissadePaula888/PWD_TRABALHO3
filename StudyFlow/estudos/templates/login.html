@@ -1,0 +1,32 @@
+{% extends 'base.html' %}{% block title %}Login{% endblock %}{% block content %}
+<div class="auth-card">
+ <div class="auth-logo">
+  ✦
+ </div>
+ <h1>
+  Bem-vindo de volta!
+ </h1>
+ <p>
+  Continue sua jornada de estudos.
+ </p>
+ <form method="POST">
+  <label>
+   Email
+   <input class="input" name="email" placeholder="seu@email.com" required type="email"/>
+  </label>
+  <label>
+   Senha
+   <input class="input" name="password" placeholder="••••••••" required type="password"/>
+  </label>
+  <button class="btn primary full" type="submit">
+   Entrar
+  </button>
+ </form>
+ <p class="auth-foot">
+  Ainda não tem conta?
+  <a href="{{url_for('register')}}">
+   Cadastre-se
+  </a>
+ </p>
+</div>
+{% endblock %}

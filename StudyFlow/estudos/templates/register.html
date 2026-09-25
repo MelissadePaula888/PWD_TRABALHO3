@@ -1,0 +1,40 @@
+{% extends 'base.html' %}{% block title %}Cadastro{% endblock %}{% block content %}
+<div class="auth-card">
+ <div class="auth-logo">
+  ✦
+ </div>
+ <h1>
+  Crie sua conta
+ </h1>
+ <p>
+  Comece sua jornada no StudyFlow.
+ </p>
+ <form method="POST">
+  <label>
+   Usuário
+   <input class="input" maxlength="80" minlength="3" name="username" placeholder="Seu nome" required type="text"/>
+  </label>
+  <label>
+   Email
+   <input class="input" name="email" placeholder="seu@email.com" required type="email"/>
+  </label>
+  <label>
+   Senha
+   <input class="input" minlength="6" name="password" placeholder="Mínimo de 6 caracteres" required type="password"/>
+  </label>
+  <label>
+   Confirmar senha
+   <input class="input" name="confirm_password" required type="password"/>
+  </label>
+  <button class="btn primary full" type="submit">
+   Criar conta
+  </button>
+ </form>
+ <p class="auth-foot">
+  Já tem conta?
+  <a href="{{url_for('login')}}">
+   Entrar
+  </a>
+ </p>
+</div>
+{% endblock %}

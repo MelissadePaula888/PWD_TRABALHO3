@@ -1,0 +1,50 @@
+{% extends 'base.html' %}{% block title %}Bem-vindo{% endblock %}{% block content %}
+<section class="hero">
+ <div>
+  <span class="pill">
+   ✦ ESTUDE. EVOLUA. CONQUISTE.
+  </span>
+  <h1>
+   Transforme seus estudos em uma
+   <span>
+    jornada.
+   </span>
+  </h1>
+  <p>
+   Aprenda com aulas, ganhe XP, suba de nível e acompanhe sua evolução de um jeito divertido.
+  </p>
+  <div class="actions">
+   <a class="btn primary" href="{{url_for('login')}}">
+    Entrar
+   </a>
+   <a class="btn outline" href="{{url_for('register')}}">
+    Criar conta
+   </a>
+  </div>
+ </div>
+ <div class="hero-art">
+  <div class="float-card c1">
+   <i class="fa-solid fa-fire">
+   </i>
+   7 dias de streak
+  </div>
+  <div class="level-card">
+   <strong>
+    Nível 8
+   </strong>
+   <small>
+    2.450 XP
+   </small>
+   <div class="progress">
+    <i style="width:72%">
+    </i>
+   </div>
+  </div>
+  <div class="float-card c2">
+   <i class="fa-solid fa-trophy">
+   </i>
+   Nova conquista!
+  </div>
+ </div>
+</section>
+{% endblock %}

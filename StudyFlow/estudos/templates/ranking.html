@@ -1,0 +1,58 @@
+{% extends 'base.html' %}{% block title %}Ranking{% endblock %}{% block content %}
+<div class="page-head">
+ <div>
+  <p class="eyebrow">
+   Competição saudável
+  </p>
+  <h1>
+   Ranking
+  </h1>
+  <p>
+   Suba posições estudando e ganhando XP.
+  </p>
+ </div>
+</div>
+<section class="panel">
+ <div class="podium">
+  {% for u in users[:3] %}
+  <div class="pod {{'first' if loop.index==1 else ''}}">
+   <div class="pod-avatar">
+    {{u.username[0]|upper}}
+   </div>
+   <b>
+    #{{loop.index}} {{u.username}}
+   </b>
+   <strong>
+    {{u.xp}} XP
+   </strong>
+  </div>
+  {% endfor %}
+ </div>
+ <div class="rank-list">
+  {% for u in users %}
+  <div class="rank-row {{'me' if u.id==current_user.id else ''}}">
+   <strong>
+    #{{loop.index}}
+   </strong>
+   <span class="rank-avatar">
+    {{u.username[0]|upper}}
+   </span>
+   <div>
+    <b>
+     {{u.username}} {% if u.id==current_user.id %}(você){% endif %}
+    </b>
+    <small>
+     Nível {{u.level}} ·
+     <i class="fa-solid fa-fire">
+     </i>
+     {{u.streak}}
+    </small>
+   </div>
+   <strong>
+    {{u.xp}} XP
+   </strong>
+  </div>
+  {% endfor %}
+ </div>
+</section>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}{% block title %}Calendário{% endblock %}{% block content %}
+<div class="page-head">
+ <div>
+  <p class="eyebrow">
+   Consistência
+  </p>
+  <h1>
+   Calendário
+  </h1>
+  <p>
+   Seus dias de estudo aparecem aqui.
+  </p>
+ </div>
+</div>
+<section class="panel calendar">
+ <div class="calendar-grid">
+  {% for i in range(1,32) %}{% set key=today.strftime('%Y-%m-') ~ '%02d'|format(i) %}
+  <div class="day {{'studied' if key in days else ''}}">
+   {{i}}
+  </div>
+  {% endfor %}
+ </div>
+</section>
+{% endblock %}

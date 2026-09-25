@@ -1,0 +1,42 @@
+{% extends 'base.html' %}{% block title %}Estatísticas{% endblock %}{% block content %}
+<div class="page-head">
+ <div>
+  <p class="eyebrow">
+   Sua evolução
+  </p>
+  <h1>
+   Estatísticas
+  </h1>
+  <p>
+   Dados reais das suas sessões e XP.
+  </p>
+ </div>
+</div>
+<div class="chart-grid">
+ <section class="panel">
+  <h2>
+   Horas/minutos estudados
+  </h2>
+  <canvas id="studyChart">
+  </canvas>
+ </section>
+ <section class="panel">
+  <h2>
+   XP ganho
+  </h2>
+  <canvas id="xpChart">
+  </canvas>
+ </section>
+ <section class="panel">
+  <h2>
+   Tempo por matéria
+  </h2>
+  <canvas id="subjectChart">
+  </canvas>
+ </section>
+</div>
+{% endblock %}{% block scripts %}
+<script>
+ fetch('{{url_for("api_statistics")}}').then(r=>r.json()).then(d=>{new Chart(document.getElementById('studyChart'),{type:'line',data:{labels:d.labels,datasets:[{label:'Minutos',data:d.minutes,tension:.35,fill:true}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});new Chart(document.getElementById('xpChart'),{type:'bar',data:{labels:d.labels,datasets:[{label:'XP',data:d.xp,borderRadius:10}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});new Chart(document.getElementById('subjectChart'),{type:'doughnut',data:{labels:d.subject_labels,datasets:[{data:d.subject_values}]},options:{plugins:{legend:{position:'bottom'}}}})})
+</script>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}{% block title %}Metas{% endblock %}{% block content %}
+<div class="page-head">
+ <div>
+  <p class="eyebrow">
+   Foco
+  </p>
+  <h1>
+   Minhas metas
+  </h1>
+  <p>
+   Pequenos objetivos viram grandes resultados.
+  </p>
+ </div>
+</div>
+<section class="panel goal-create">
+ <form method="POST">
+  <input class="input" name="title" placeholder="Ex.: Concluir 10 aulas" required/>
+  <input class="input" name="description" placeholder="Descrição (opcional)"/>
+  <select class="input" name="goal_type">
+   <option value="lessons">
+    Aulas
+   </option>
+   <option value="xp">
+    XP
+   </option>
+   <option value="hours">
+    Horas
+   </option>
+  </select>
+  <input class="input" min="1" name="target" placeholder="Objetivo" required type="number"/>
+  <button class="btn primary">
+   Criar meta
+  </button>
+ </form>
+</section>
+<div class="goal-grid">
+ {% for g in goals %}
+ <div class="panel goal">
+  <div class="goal-icon">
+   <i class="fa-solid fa-bullseye">
+   </i>
+  </div>
+  <div>
+   <h3>
+    {{g.title}}
+   </h3>
+   <p>
+    {{g.description or 'Continue avançando!'}}
+   </p>
+  </div>
+  <strong>
+   {{g.progress}} / {{g.target}}
+  </strong>
+  <div class="big-progress">
+   <i style="width:{{(g.progress/g.target*100)|round|int}}%">
+   </i>
+  </div>
+  {% if g.completed %}
+  <span class="success-text">
+   ✓ Concluída · +{{g.reward_xp}} XP
+  </span>
+  {% endif %}
+ </div>
+ {% else %}
+ <div class="panel">
+  Nenhuma meta criada ainda.
+ </div>
+ {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title %}Configurações{% endblock %}
+
+{% block content %}
+<div class="settings-page">
+    <div class="page-head settings-head">
+        <div>
+            <p class="eyebrow">Personalização</p>
+            <h1>Configurações</h1>
+            <p>Deixe o StudyFlow do seu jeito.</p>
+        </div>
+        <div class="settings-badge">
+            <i class="fa-solid fa-sliders"></i>
+            <span>Preferências</span>
+        </div>
+    </div>
+
+    <form method="POST" id="settings-form" class="settings-form">
+        <section class="settings-card">
+            <div class="settings-card-title">
+                <div class="settings-icon">
+                    <i class="fa-solid fa-palette"></i>
+                </div>
+                <div>
+                    <h2>Aparência</h2>
+                    <p>Escolha como o StudyFlow será exibido.</p>
+                </div>
+            </div>
+
+            <div class="theme-options">
+                <label class="theme-option {% if current_user.theme == 'light' %}selected{% endif %}" data-theme-option="light">
+                    <input type="radio" name="theme" value="light" {% if current_user.theme == 'light' %}checked{% endif %}>
+                    <div class="theme-preview light-preview">
+                        <div class="preview-sidebar"></div>
+                        <div class="preview-content">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                    <div class="theme-option-text">
+                        <strong>Modo claro</strong>
+                        <small>Visual limpo e claro</small>
+                    </div>
+                    <i class="fa-solid fa-circle-check theme-check"></i>
+                </label>
+
+                <label class="theme-option {% if current_user.theme == 'dark' %}selected{% endif %}" data-theme-option="dark">
+                    <input type="radio" name="theme" value="dark" {% if current_user.theme == 'dark' %}checked{% endif %}>
+                    <div class="theme-preview dark-preview">
+                        <div class="preview-sidebar"></div>
+                        <div class="preview-content">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                    <div class="theme-option-text">
+                        <strong>Modo noturno</strong>
+                        <small>Mais confortável à noite</small>
+                    </div>
+                    <i class="fa-solid fa-circle-check theme-check"></i>
+                </label>
+            </div>
+
+            <div class="settings-preview">
+                <div class="preview-live-icon">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div>
+                    <strong>Prévia ao vivo</strong>
+                    <p>O tema muda na hora. Clique em salvar para manter a escolha.</p>
+                </div>
+            </div>
+
+            <div class="settings-actions">
+                <button class="btn primary settings-save" type="submit">
+                    <i class="fa-solid fa-check"></i>
+                    Salvar alterações
+                </button>
+            </div>
+        </section>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const options = document.querySelectorAll('[data-theme-option]');
+
+    function aplicarTema(theme) {
+        if (window.aplicarTemaStudyFlow) {
+            window.aplicarTemaStudyFlow(theme);
+        } else {
+            document.body.classList.remove('theme-light', 'theme-dark');
+            document.body.classList.add(theme === 'dark' ? 'theme-dark' : 'theme-light');
+        }
+
+        localStorage.setItem('studyflow-theme', theme);
+
+        options.forEach(option => {
+            option.classList.toggle('selected', option.dataset.themeOption === theme);
+            const radio = option.querySelector('input');
+            if (radio) radio.checked = option.dataset.themeOption === theme;
+        });
+    }
+
+    options.forEach(option => {
+        option.addEventListener('click', () => {
+            const radio = option.querySelector('input');
+            if (radio) aplicarTema(radio.value);
+        });
+    });
+
+    const atual = document.body.classList.contains('theme-dark') ? 'dark' : 'light';
+    aplicarTema(localStorage.getItem('studyflow-theme') || atual);
+});
+</script>
+{% endblock %}
